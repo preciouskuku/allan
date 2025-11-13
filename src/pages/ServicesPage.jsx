@@ -4,6 +4,8 @@ import ServicesHero from '../components/ServicesHero';
 import TopProfessionals from '../components/TopProfessionals';
 import OtherProviders from '../components/OtherProviders';
 import GalleryCTA from '../components/GalleryCTA';
+import SearchBarSection from '../components/Searchbar';
+import Professionals from '../components/Professionals';
 
 
 const ServicesPage = () => {
@@ -11,7 +13,8 @@ const ServicesPage = () => {
     <div className="font-sans">
      
       <ServicesHero />
-      <TopProfessionals />
+      <SearchBarSection />
+      <Professionals />
       <OtherProviders />
       <GalleryCTA />
       

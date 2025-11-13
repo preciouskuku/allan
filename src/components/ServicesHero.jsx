@@ -1,77 +1,86 @@
-import React from 'react';
-import ServicesHeroImage from '../assets/service-hero.jpg';
+import React, { useState, useEffect } from "react";
+import HeroBg from "../assets/expert.jpg"; // your background image
+import builderImg from "../assets/slide.jpg";
+import plumberImg from "../assets/plumber.jpg";
+import electricianImg from "../assets/man.jpg";
 
-const ServicesHero = () => {
+const ExpertsHero = () => {
+  const providers = [
+    { name: "Builder", image: builderImg },
+    { name: "Plumber", image: plumberImg },
+    { name: "Electrician", image: electricianImg },
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Auto-rotate cards every 2 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % providers.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [providers.length]);
+
   return (
-    <div
-      className="bg-cover bg-center h-screen relative"
-      style={{ backgroundImage: `url(${ServicesHeroImage})` }}
+    <section
+      className="relative h-screen bg-cover bg-center flex items-end"
+      style={{ backgroundImage: `url(${HeroBg})` }}
     >
-      {/* Overlay for readability */}
+      {/* Overlay gradient */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#007BFF80] via-transparent to-transparent"></div>
       <div className="absolute inset-0 bg-black/40"></div>
 
-      {/* Text Section */}
-      <div className="container mx-auto px-6 md:px-12 h-full flex flex-col justify-center items-start relative z-10 text-white text-left">
-        <h2 className="text-xs md:text-sm font-bold uppercase mb-2 text-gray-200">
-          Welcome to Buildlinks
-        </h2>
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight">
-          Experts Near You
-        </h1>
-        <p className="text-base sm:text-lg md:text-xl mb-6 md:mb-8 max-w-md md:max-w-xl">
-          Where you find the best of the best certified featured service providers like Builder
-        </p>
-        <button className="bg-blue-500 text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-md hover:bg-blue-600 font-semibold text-sm sm:text-base">
-          Explore More
-        </button>
-      </div>
+      {/* Content */}
+      <div className="relative z-10 text-white px-6 md:px-20 pb-20 w-full flex flex-col md:flex-row md:justify-between items-end">
+        {/* Left Text */}
+        <div className="max-w-xl">
+          <p className="text-blue-300 mb-2 text-lg">Welcome to Buildlinks</p>
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight">
+            Experts Near <span className="text-sky-400">You</span>
+          </h1>
+          <p className="text-lg md:text-xl mb-4">
+            <span className="text-sky-400">Where you find</span> the best of the
+            best certified featured service providers like:
+          </p>
+          <h2 className="text-2xl md:text-3xl font-semibold">
+            {providers[currentIndex].name}
+          </h2>
+        </div>
 
-      {/* Search Bar at the bottom of hero */}
-      <div className="absolute bottom-4 md:bottom-6 left-1/2 transform -translate-x-1/2 w-full max-w-4xl px-4">
-        <div className="bg-white/90 backdrop-blur-md p-4 sm:p-6 rounded-xl shadow-lg">
-          {/* Search Inputs */}
-          <div className="flex flex-col md:flex-row items-center gap-3 sm:gap-4">
-            <input
-              type="text"
-              placeholder="What are you looking for?"
-              className="w-full md:flex-grow p-3 sm:p-4 rounded-lg border border-sky-400 text-gray-700 focus:ring-2 focus:ring-sky-400 text-base sm:text-lg"
-            />
-            <select className="w-full md:w-auto p-3 sm:p-4 rounded-lg border border-sky-400 text-gray-700 focus:ring-2 focus:ring-sky-400 text-base sm:text-lg">
-              <option>Builders</option>
-              <option>Plumbers</option>
-              <option>Electricians</option>
-            </select>
-            <input
-              type="text"
-              placeholder="Location"
-              className="w-full md:w-auto p-3 sm:p-4 rounded-lg border border-sky-400 text-gray-700 focus:ring-2 focus:ring-sky-400 text-base sm:text-lg"
-            />
-            <button className="w-full md:w-auto bg-sky-500 text-white px-5 sm:px-6 py-3 rounded-lg hover:bg-sky-600 transition text-base sm:text-lg font-medium">
-              Search
-            </button>
-          </div>
-
-          {/* Category buttons */}
-          <div className="mt-4 flex flex-wrap gap-3 sm:gap-4 justify-center">
-            {['All', 'Builders', 'Plumber', 'Electrician', 'Company', 'Freelancer'].map(
-              (item, idx) => (
-                <button
-                  key={idx}
-                  className={`px-4 sm:px-6 py-2 text-sm sm:text-lg rounded-full font-semibold border-2 transition ${
-                    idx === 0
-                      ? 'bg-sky-500 text-white border-sky-500'
-                      : 'bg-white/80 text-sky-500 border border-sky-400 hover:bg-sky-100'
-                  }`}
-                >
-                  {item}
-                </button>
-              )
-            )}
-          </div>
+        {/* Right Side Rotating Cards */}
+        <div className="flex items-center gap-4 mt-10 md:mt-0">
+          {providers.map((provider, idx) => (
+            <div
+              key={idx}
+              className={`transition-all duration-700 rounded-2xl overflow-hidden shadow-lg ${
+                idx === currentIndex
+                  ? "w-40 h-40 md:w-48 md:h-48 opacity-100"
+                  : "w-28 h-28 md:w-32 md:h-32 opacity-50"
+              }`}
+            >
+              <img
+                src={provider.image}
+                alt={provider.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ))}
         </div>
       </div>
-    </div>
+
+      {/* Indicator Dots */}
+      <div className="absolute bottom-8 right-1/2 translate-x-1/2 flex gap-2 z-10">
+        {providers.map((_, idx) => (
+          <span
+            key={idx}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              idx === currentIndex ? "bg-white" : "bg-gray-400"
+            }`}
+          ></span>
+        ))}
+      </div>
+    </section>
   );
 };
 
-export default ServicesHero;
+export default ExpertsHero;
