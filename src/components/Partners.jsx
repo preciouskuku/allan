@@ -25,7 +25,7 @@ const Partners = () => {
           {logos.map((logo) => (
             <div
               key={logo.id}
-              className="w-48 h-48 bg-white rounded-xl shadow-lg flex justify-center items-center"
+              className="w-60 h-48 bg-white rounded-xl shadow-lg flex justify-center items-center"
             >
               <img
                 src={logo.src}
